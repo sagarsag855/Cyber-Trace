@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberTrace | Digital Forensics</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        <div class="brand-mark">CT</div>
+
+        <div class="brand-content">
+            <strong>CYBERTRACE</strong>
+            <span>DIGITAL FORENSICS &amp; INCIDENT INVESTIGATION</span>
+        </div>
+    </div>
+
+    <nav class="navigation">
+        <a href="#dashboard" class="active">Dashboard</a>
+        <a href="#investigations">Investigations</a>
+        <a href="#activity">Activity</a>
+    </nav>
+
+    <div class="system-status">
+        <span class="status-dot"></span>
+        SYSTEM OPERATIONAL
+    </div>
+
+</header>
+
+
+<main id="dashboard" class="dashboard">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div>
+            <span class="eyebrow">FORENSIC OPERATIONS</span>
+
+            <h1>
+                Investigation<br>
+                Dashboard
+            </h1>
+
+            <p class="hero-description">
+                Analyze digital evidence, reconstruct timelines,
+                and investigate suspicious activity.
+            </p>
+        </div>
+
+        <button
+            id="newCaseButton"
+            class="new-case-button"
+            type="button"
+        >
+            + New Investigation
+        </button>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <section class="statistics">
+
+        <article class="stat-card">
+            <span class="stat-label">ACTIVE CASES</span>
+
+            <strong id="activeCasesCount">
+                00
+            </strong>
+
+            <small>
+                Investigations in progress
+            </small>
+        </article>
+
+
+        <article class="stat-card">
+            <span class="stat-label">EVIDENCE ITEMS</span>
+
+            <strong id="totalEvidenceCount">
+                00
+            </strong>
+
+            <small>
+                Evidence under review
+            </small>
+        </article>
+
+
+        <article class="stat-card">
+            <span class="stat-label">EVENTS ANALYZED</span>
+
+            <strong id="eventsAnalyzedCount">
+                00
+            </strong>
+
+            <small>
+                Forensic events processed
+            </small>
+        </article>
+
+
+        <article class="stat-card">
+            <span class="stat-label">HIGH PRIORITY</span>
+
+            <strong id="highPriorityCount">
+                00
+            </strong>
+
+            <small>
+                Cases requiring attention
+            </small>
+        </article>
+
+    </section>
+
+
+    <!-- WORKSPACE -->
+
+    <section class="workspace">
+
+        <!-- INVESTIGATIONS -->
+
+        <article
+            id="investigations"
+            class="panel"
+        >
+
+            <header class="panel-header">
+
+                <div>
+                    <span class="panel-kicker">
+                        INVESTIGATIONS
+                    </span>
+
+                    <h2>
+                        Recent Cases
+                    </h2>
+                </div>
+
+                <button
+                    id="refreshCasesButton"
+                    class="text-button"
+                    type="button"
+                >
+                    Refresh
+                </button>
+
+            </header>
+
+
+            <div
+                id="caseList"
+                class="case-list"
+            >
+                <div class="loading-state">
+                    Loading investigations...
+                </div>
+            </div>
+
+        </article>
+
+
+        <!-- ACTIVITY -->
+
+        <article
+            id="activity"
+            class="panel"
+        >
+
+            <header class="panel-header">
+
+                <div>
+                    <span class="panel-kicker">
+                        SYSTEM
+                    </span>
+
+                    <h2>
+                        Recent Activity
+                    </h2>
+                </div>
+
+            </header>
+
+
+            <div class="activity-list">
+
+                <div class="activity">
+
+                    <time class="activity-time">
+                        NOW
+                    </time>
+
+                    <div>
+                        <strong>
+                            CyberTrace system started
+                        </strong>
+
+                        <p>
+                            Investigation platform online
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="activity">
+
+                    <time class="activity-time">
+                        02M
+                    </time>
+
+                    <div>
+                        <strong>
+                            Evidence module ready
+                        </strong>
+
+                        <p>
+                            Evidence collection available
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="activity">
+
+                    <time class="activity-time">
+                        05M
+                    </time>
+
+                    <div>
+                        <strong>
+                            Database connected
+                        </strong>
+
+                        <p>
+                            SQLite forensic database online
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="activity">
+
+                    <time class="activity-time">
+                        08M
+                    </time>
+
+                    <div>
+                        <strong>
+                            Investigation engine ready
+                        </strong>
+
+                        <p>
+                            Case analysis system operational
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+</main>
+
+
+<!-- ================================================= -->
+<!-- NEW INVESTIGATION MODAL -->
+<!-- ================================================= -->
+
+<div
+    id="caseModal"
+    class="modal-overlay"
+    aria-hidden="true"
+>
+
+    <section
+        class="case-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="caseModalTitle"
+    >
+
+        <header class="modal-header">
+
+            <div>
+
+                <span class="panel-kicker">
+                    CYBERTRACE
+                </span>
+
+                <h2 id="caseModalTitle">
+                    New Investigation
+                </h2>
+
+            </div>
+
+            <button
+                id="closeCaseModal"
+                class="close-modal"
+                type="button"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </header>
+
+
+        <form id="caseForm">
+
+            <label for="caseName">
+                Investigation Name
+            </label>
+
+            <input
+                type="text"
+                id="caseName"
+                placeholder="Enter investigation name"
+                required
+            >
+
+
+            <label for="caseDescription">
+                Case Description
+            </label>
+
+            <textarea
+                id="caseDescription"
+                rows="5"
+                placeholder="Describe the investigation"
+                required
+            ></textarea>
+
+
+            <label for="investigator">
+                Investigator
+            </label>
+
+            <input
+                type="text"
+                id="investigator"
+                placeholder="Investigator name"
+                required
+            >
+
+
+            <label for="priority">
+                Priority
+            </label>
+
+            <select id="priority" required>
+
+                <option value="Low">
+                    Low
+                </option>
+
+                <option value="Medium" selected>
+                    Medium
+                </option>
+
+                <option value="High">
+                    High
+                </option>
+
+                <option value="Critical">
+                    Critical
+                </option>
+
+            </select>
+
+
+            <div class="modal-actions">
+
+                <button
+                    id="cancelCase"
+                    class="cancel-button"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    id="createCaseButton"
+                    class="create-button"
+                    type="submit"
+                >
+                    Create Investigation
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- INVESTIGATION PANEL -->
+<!-- ================================================= -->
+
+<div
+    id="investigationPanel"
+    class="investigation-panel"
+    aria-hidden="true"
+>
+
+    <div class="investigation-container">
+
+        <header class="investigation-header">
+
+            <div>
+
+                <span class="investigation-label">
+                    ACTIVE INVESTIGATION
+                </span>
+
+                <h2 id="investigationTitle">
+                    Investigation
+                </h2>
+
+                <p id="investigationSubtitle">
+                    Digital forensic investigation workspace
+                </p>
+
+            </div>
+
+
+            <button
+                id="closeInvestigation"
+                class="close-investigation"
+                type="button"
+                aria-label="Close investigation"
+            >
+                ×
+            </button>
+
+        </header>
+
+
+        <!-- CASE INFORMATION -->
+
+        <section class="investigation-grid">
+
+            <article class="investigation-card">
+
+                <span>
+                    CASE ID
+                </span>
+
+                <strong id="investigationId">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="investigation-card">
+
+                <span>
+                    INVESTIGATOR
+                </span>
+
+                <strong id="investigationInvestigator">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="investigation-card">
+
+                <span>
+                    PRIORITY
+                </span>
+
+                <strong id="investigationPriority">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="investigation-card">
+
+                <span>
+                    STATUS
+                </span>
+
+                <strong id="investigationStatus">
+                    OPEN
+                </strong>
+
+            </article>
+
+        </section>
+
+
+        <!-- DESCRIPTION -->
+
+        <section class="investigation-section">
+
+            <div class="section-heading">
+
+                <span class="panel-kicker">
+                    CASE OVERVIEW
+                </span>
+
+                <h3>
+                    Description
+                </h3>
+
+            </div>
+
+            <p id="investigationDescription">
+                —
+            </p>
+
+        </section>
+
+
+        <!-- TIMELINE -->
+
+        <section class="investigation-section">
+
+            <div class="section-heading">
+
+                <span class="panel-kicker">
+                    FORENSIC ACTIVITY
+                </span>
+
+                <h3>
+                    Investigation Timeline
+                </h3>
+
+            </div>
+
+
+            <div class="timeline-placeholder">
+
+                <div class="timeline-line"></div>
+
+
+                <div class="timeline-event">
+
+                    <span></span>
+
+                    <div>
+
+                        <strong>
+                            Investigation created
+                        </strong>
+
+                        <small>
+                            Case registered in CyberTrace
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-event">
+
+                    <span></span>
+
+                    <div>
+
+                        <strong>
+                            Evidence collection
+                        </strong>
+
+                        <small>
+                            Awaiting evidence acquisition
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-event">
+
+                    <span></span>
+
+                    <div>
+
+                        <strong>
+                            Event analysis
+                        </strong>
+
+                        <small>
+                            Awaiting forensic event processing
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TOOLS -->
+
+        <section class="investigation-tools">
+
+            <div class="tools-header">
+
+                <div>
+
+                    <span class="panel-kicker">
+                        FORENSIC TOOLS
+                    </span>
+
+                    <h3>
+                        Investigation Modules
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="investigation-actions">
+
+                <button
+                    id="evidenceButton"
+                    class="investigation-action"
+                    type="button"
+                >
+
+                    <span class="action-number">
+                        01
+                    </span>
+
+                    <span>
+                        Evidence
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="timelineButton"
+                    class="investigation-action"
+                    type="button"
+                >
+
+                    <span class="action-number">
+                        02
+                    </span>
+
+                    <span>
+                        Timeline
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="eventAnalysisButton"
+                    class="investigation-action"
+                    type="button"
+                >
+
+                    <span class="action-number">
+                        03
+                    </span>
+
+                    <span>
+                        Event Analysis
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="reportButton"
+                    class="investigation-action"
+                    type="button"
+                >
+
+                    <span class="action-number">
+                        04
+                    </span>
+
+                    <span>
+                        Generate Report
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- EVIDENCE PANEL -->
+<!-- ================================================= -->
+
+<div
+    id="evidencePanel"
+    class="investigation-panel"
+    aria-hidden="true"
+>
+
+    <div class="investigation-container">
+
+        <header class="investigation-header">
+
+            <div>
+
+                <span class="investigation-label">
+                    DIGITAL EVIDENCE
+                </span>
+
+                <h2>
+                    Evidence Management
+                </h2>
+
+            </div>
+
+
+            <button
+                id="closeEvidence"
+                class="close-investigation"
+                type="button"
+            >
+                ×
+            </button>
+
+        </header>
+
+
+        <section class="investigation-grid">
+
+            <article class="investigation-card">
+
+                <span>
+                    CASE ID
+                </span>
+
+                <strong id="evidenceCaseId">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="investigation-card">
+
+                <span>
+                    EVIDENCE ITEMS
+                </span>
+
+                <strong id="evidenceCount">
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="investigation-card">
+
+                <span>
+                    STATUS
+                </span>
+
+                <strong id="evidenceCaseStatus">
+                    ACTIVE
+                </strong>
+
+            </article>
+
+
+            <article class="investigation-card">
+
+                <span>
+                    INTEGRITY
+                </span>
+
+                <strong id="evidenceIntegrity">
+                    VERIFIED
+                </strong>
+
+            </article>
+
+        </section>
+
+
+        <section class="investigation-section">
+
+            <div class="tools-header">
+
+                <div>
+
+                    <span class="panel-kicker">
+                        EVIDENCE COLLECTION
+                    </span>
+
+                    <h3>
+                        Collected Evidence
+                    </h3>
+
+                </div>
+
+
+                <button
+                    id="addEvidenceButton"
+                    class="investigation-action compact-action"
+                    type="button"
+                >
+                    + Add Evidence
+                </button>
+
+            </div>
+
+
+            <div id="evidenceList">
+
+                <p>
+                    No evidence loaded.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section
+            class="investigation-section"
+            id="evidenceDetails"
+        >
+
+            <div class="section-heading">
+
+                <span class="panel-kicker">
+                    FORENSIC DETAILS
+                </span>
+
+                <h3>
+                    Evidence Details
+                </h3>
+
+            </div>
+
+            <p>
+                Select an evidence item to inspect its forensic metadata.
+            </p>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <p>
+        CYBERTRACE
+        <span>•</span>
+        Digital Forensics &amp; Incident Investigation Platform
+    </p>
+
+    <p>
+        Synthetic forensic environment
+    </p>
+
+</footer>
+
+
+<script src="js/app.js"></script>
+
+</body>
+</html>
